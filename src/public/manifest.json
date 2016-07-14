@@ -13,8 +13,7 @@
     "chrome_style": true
   },
   "background": {
-    "scripts": ["js/background.js"],
-    "persistent": false
+    "scripts": ["js/background.js"]
   },
   "permissions": [
     "tabs",
