@@ -40,12 +40,10 @@ const tabUpdated = (tabId, changeInfo, tab) => {
   });
 };
 
-chrome.runtime.onInstalled.addListener(() => {
-  chrome.storage.local.get((storage) => {
-    if (!storage.ignoreList) {
-      chrome.storage.local.set(DEFAULT_STORAGE_DATA);
-    }
-  });
+chrome.storage.local.get((storage) => {
+  if (!storage.ignoreList) {
+    chrome.storage.local.set(DEFAULT_STORAGE_DATA);
+  }
 });
 
 chrome.tabs.onUpdated.addListener(tabUpdated);
