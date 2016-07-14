@@ -24,7 +24,7 @@ const unmuteRecentTab = () => {
 };
 
 const tabUpdated = (tabId, changeInfo, tab) => {
-  chrome.storage.sync.get((storage) => {
+  chrome.storage.local.get((storage) => {
     const { ignoreList } = storage;
     if (changeInfo && changeInfo.audible === true) {
       const onIgnoreList = ignoreList && max(ignoreList.split(/\n/).map(i => tab.url.indexOf(i.trim()))) > -1;
@@ -41,9 +41,9 @@ const tabUpdated = (tabId, changeInfo, tab) => {
 };
 
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.storage.sync.get((storage) => {
+  chrome.storage.local.get((storage) => {
     if (!storage.ignoreList) {
-      chrome.storage.sync.set(DEFAULT_STORAGE_DATA);
+      chrome.storage.local.set(DEFAULT_STORAGE_DATA);
     }
   });
 });

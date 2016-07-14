@@ -3,7 +3,7 @@ import $ from 'npm-zepto';
 const $ignoreList = $('textarea[name=ignoreList]');
 const $unmuteLastTab = $('input[name=unmuteLastTab]');
 
-chrome.storage.sync.get((data) => {
+chrome.storage.local.get((data) => {
   if (data && data.ignoreList) {
     $ignoreList.val(data.ignoreList);
   }
@@ -13,9 +13,9 @@ chrome.storage.sync.get((data) => {
 });
 
 $ignoreList.on('keyup', (event) => {
-  chrome.storage.sync.set({ ignoreList: $ignoreList.val() });
+  chrome.storage.local.set({ ignoreList: $ignoreList.val() });
 });
 
 $unmuteLastTab.on('change', (event) => {
-  chrome.storage.sync.set({ unmuteLastTab: $unmuteLastTab.prop('checked') });
+  chrome.storage.local.set({ unmuteLastTab: $unmuteLastTab.prop('checked') });
 });
