@@ -1,5 +1,3 @@
-import { max } from 'lodash';
-
 const DEFAULT_STORAGE_DATA = {
   ignoreList: 'messenger.com\nslack.com',
   unmuteLastTab: true,
@@ -8,7 +6,7 @@ const DEFAULT_STORAGE_DATA = {
 const muteOtherTabs = (changedTab, ignoreList) => {
   chrome.tabs.query({ audible: true }, (tabs) => {
     tabs.forEach((tab) => {
-      const onIgnoreList = ignoreList && max(ignoreList.split(/\n/).map(i => tab.url.indexOf(i.trim()))) > -1;
+      const onIgnoreList = ignoreList && Math.max(ignoreList.split(/\n/).map(i => tab.url.indexOf(i.trim()))) > -1;
       if (tab.id !== changedTab.id && !onIgnoreList) {
         chrome.tabs.update(tab.id, { muted: true });
       }
@@ -18,7 +16,7 @@ const muteOtherTabs = (changedTab, ignoreList) => {
 
 const unmuteRecentTab = () => {
   chrome.tabs.query({ audible: true }, (tabs) => {
-    const latestAudibleTabId = max(tabs.map(tab => tab.id));
+    const latestAudibleTabId = Math.max(tabs.map(tab => tab.id));
     chrome.tabs.update(latestAudibleTabId, { muted: false });
   });
 };
@@ -27,7 +25,7 @@ const tabUpdated = (tabId, changeInfo, tab) => {
   chrome.storage.local.get((storage) => {
     const { ignoreList } = storage;
     if (changeInfo && changeInfo.audible === true) {
-      const onIgnoreList = ignoreList && max(ignoreList.split(/\n/).map(i => tab.url.indexOf(i.trim()))) > -1;
+      const onIgnoreList = ignoreList && Math.max(ignoreList.split(/\n/).map(i => tab.url.indexOf(i.trim()))) > -1;
       if (!onIgnoreList) {
         muteOtherTabs(tab, ignoreList);
       }
