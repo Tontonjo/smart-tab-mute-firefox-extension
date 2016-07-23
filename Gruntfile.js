@@ -2,24 +2,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON("package.json"),
 
-    config: {
-      dev: {
-        options: {
-          variables: {
-            buildDir: "build",
-          }
-        }
-      },
-      dist: {
-        options: {
-          variables: {
-            buildDir: "dist",
-          }
-        }
-      }
-    },
-
-    clean: ["<%= grunt.config.get('buildDir') %>/**/*"],
+    clean: ['build/'],
 
     copy: {
       main: {
@@ -27,8 +10,15 @@ module.exports = function(grunt) {
           {
             expand: true,
             src: "**",
-            dest: "<%= grunt.config.get('buildDir') %>/",
+            dest: "build/",
             cwd: "src/public",
+            dot: true
+          },
+          {
+            expand: true,
+            cwd: "src/javascripts/",
+            src: "**",
+            dest: "build/js",
             dot: true
           }
         ]
@@ -47,7 +37,7 @@ module.exports = function(grunt) {
             expand: true,
             cwd: "src/stylesheets",
             src: "*.sass",
-            dest: "<%= grunt.config.get('buildDir') %>/css",
+            dest: "build/css",
             ext: ".css"
           }
         ]
@@ -61,64 +51,19 @@ module.exports = function(grunt) {
             expand: true,
             cwd: "src/views",
             src: "*.jade",
-            dest: "<%= grunt.config.get('buildDir') %>/",
+            dest: "build/",
             ext: ".html"
           }
         ]
       }
     },
 
-    uglify: {
-      options: {
-        mangle: true
-      },
-      dist: {
-        files: [
-          {
-            expand: true,
-            cwd: "<%= grunt.config.get('buildDir') %>/js",
-            src: "**/*.js",
-            dest: "<%= grunt.config.get('buildDir') %>/js",
-            ext: ".js"
-          }
-        ]
-      }
-    },
-
-    webpack: {
-      someName: {
-        entry: {
-          background: "./src/javascripts/background.js",
-          options: "./src/javascripts/options.js"
-        },
-        output: {
-          path: "<%= grunt.config.get('buildDir') %>/js",
-          filename: "[name].js",
-        },
-        resolve: {
-          modulesDirectories: [
-            'node_modules',
-          ],
-          extensions: [
-            '',
-            '.js',
-            '.jsx',
-          ],
-        },
-        module: {
-          loaders: [
-            { test: /\.jsx?$/, exclude: /node_modules/, loader: "babel-loader?presets[]=es2015" }
-          ]
-        },
-        failOnError: true,
-      },
-    },
 
     zip: {
       "using-cwd": {
-        cwd: "<%= grunt.config.get('buildDir') %>/",
-        src: "<%= grunt.config.get('buildDir') %>/**/*",
-        dest: "<%= grunt.config.get('buildDir') %>/export.zip"
+        cwd: "build/",
+        src: "build/**/*",
+        dest: "build/smart-tab-mute.zip"
       }
     },
 
@@ -134,43 +79,18 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask("reloadChrome", "reload extension", function() {
-    var sys = require("sys");
-    var exec = require("child_process").exec;
-    var done = this.async();
-    return exec("chrome-cli list tabs", function(error, stdout, stderr) {
-      var tabId, _ref;
-      if (tabId = (_ref = stdout.match(/\[(\d+:)?([\d]+)\] Extensions/)) != null ? _ref[2] : void 0) {
-        return exec("chrome-cli reload -t " + tabId, function(error, stdout, stderr) {
-          return done();
-        });
-      } else {
-        return exec("chrome-cli open chrome://extensions && chrome-cli reload", function(error, stdout, stderr) {
-          return done();
-        });
-      }
-    });
-  });
-
   grunt.loadNpmTasks("grunt-sass");
-  grunt.loadNpmTasks("grunt-config");
-  grunt.loadNpmTasks("grunt-webpack");
   grunt.loadNpmTasks("grunt-contrib-watch");
-  grunt.loadNpmTasks("grunt-contrib-concat");
-  grunt.loadNpmTasks("grunt-contrib-uglify");
   grunt.loadNpmTasks("grunt-contrib-copy");
   grunt.loadNpmTasks("grunt-contrib-jade");
   grunt.loadNpmTasks("grunt-contrib-clean");
   grunt.loadNpmTasks("grunt-notify");
   grunt.loadNpmTasks("grunt-zip");
 
-  grunt.registerTask("main", ["clean", "webpack", "sass", "jade", "copy"]);
+  grunt.registerTask("main", ["clean", "sass", "jade", "copy"]);
 
   var defaultTasks = ["config:dev", "main"];
-  if (grunt.option('reload-extension')) {
-    defaultTasks.push("reloadChrome");
-  }
 
-  grunt.registerTask("default", defaultTasks.concat(["watch"]));
-  grunt.registerTask("dist", ["config:dist", "main", "uglify", "zip"]);
+  grunt.registerTask("default", ["main", "watch"]);
+  grunt.registerTask("dist", ["main", "zip"]);
 };
