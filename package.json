@@ -28,7 +28,5 @@
     "webpack-dev-server": "^1.14.1"
   },
   "dependencies": {
-    "lodash": "^4.13.1",
-    "npm-zepto": "^1.1.7"
   }
 }
