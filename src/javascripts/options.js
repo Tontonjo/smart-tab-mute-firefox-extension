@@ -1,21 +1,19 @@
-import $ from 'npm-zepto';
-
-const $ignoreList = $('textarea[name=ignoreList]');
-const $unmuteLastTab = $('input[name=unmuteLastTab]');
+const ignoreList = document.querySelector('textarea[name=ignoreList]');
+const unmuteLastTab = document.querySelector('input[name=unmuteLastTab]');
 
 chrome.storage.local.get((data) => {
   if (data && data.ignoreList) {
-    $ignoreList.val(data.ignoreList);
+    ignoreList.value = data.ignoreList;
   }
   if (data && data.unmuteLastTab) {
-    $unmuteLastTab.prop('checked', data.unmuteLastTab);
+    unmuteLastTab.checked = data.unmuteLastTab;
   }
 });
 
-$ignoreList.on('keyup', (event) => {
-  chrome.storage.local.set({ ignoreList: $ignoreList.val() });
+ignoreList.addEventListener('keyup', (event) => {
+  chrome.storage.local.set({ ignoreList: ignoreList.value });
 });
 
-$unmuteLastTab.on('change', (event) => {
-  chrome.storage.local.set({ unmuteLastTab: $unmuteLastTab.prop('checked') });
+unmuteLastTab.addEventListener('change', (event) => {
+  chrome.storage.local.set({ unmuteLastTab: unmuteLastTab.checked });
 });
