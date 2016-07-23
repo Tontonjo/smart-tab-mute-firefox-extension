@@ -1,4 +1,4 @@
-import { map, max } from 'lodash';
+import { max } from 'lodash';
 
 const DEFAULT_STORAGE_DATA = {
   ignoreList: 'messenger.com\nslack.com',
@@ -18,7 +18,7 @@ const muteOtherTabs = (changedTab, ignoreList) => {
 
 const unmuteRecentTab = () => {
   chrome.tabs.query({ audible: true }, (tabs) => {
-    const latestAudibleTabId = max(map(tabs, tab => tab.id));
+    const latestAudibleTabId = max(tabs.map(tab => tab.id));
     chrome.tabs.update(latestAudibleTabId, { muted: false });
   });
 };
