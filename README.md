@@ -1,11 +1,15 @@
 # Smart Tab Mute Chrome Extension – ported to Firefox
 
-## Preface
+## Tonton Jo  
+### Join the community & Support my work   
+[Click Here!](https://linktr.ee/tontonjo)  
 
-This is a Firefox port of https://github.com/neuling/smart-tab-mute-chrome-extension
+## Preface  
+Special thanks to @Gregoux06 wich helped me a lot to fix this plugin  
+This is a Firefox port of https://github.com/neuling/smart-tab-mute-chrome-extension  
+Forked from https://github.com/noniq/smart-tab-mute-chrome-extension  
 
-## Known isses
-
+## Known isses  
  * In **Firefox 47** the options page is not available (needs Firefox 48 or newer), so it’s not possible to edit the whitelist or change the “Unmute last tab” setting.
 
 ## Testing the extension
@@ -40,4 +44,4 @@ or if you want to automatically reload the extension after every change.
 grunt --reload-extension
 ```
 
-Open [chrome://extensions/](chrome://extensions/) and point the installation of an unpacked extension to the ./build folder
+Open [about:debugging](about:debugging#/setup), select this firfox and load a temporary add-on
