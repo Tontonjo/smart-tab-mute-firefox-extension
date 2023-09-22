@@ -2,20 +2,20 @@
   "name": "product-hunt-inactivity-notifications",
   "version": "0.0.1",
   "devDependencies": {
-    "eslint": "^2.8.0",
-    "eslint-config-airbnb": "^8.0.0",
-    "eslint-plugin-import": "^1.5.0",
-    "eslint-plugin-jsx-a11y": "^1.0.2",
-    "grunt": "^1.0.1",
-    "grunt-contrib-clean": "^1.0.0",
+    "eslint": "^8.49.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "grunt": "^1.6.1",
+    "grunt-contrib-clean": "^2.0.0",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-jade": "^1.0.0",
-    "grunt-contrib-sass": "^1.0.0",
-    "grunt-contrib-watch": "^1.0.0",
+    "grunt-contrib-sass": "^2.0.0",
+    "grunt-contrib-watch": "^1.1.0",
     "grunt-notify": "^0.4.5",
-    "grunt-sass": "^1.2.0",
-    "grunt-zip": "^0.17.1"
-  },
-  "dependencies": {
+    "grunt-sass": "^3.1.0",
+    "grunt-zip": "^0.20.0",
+    "node-sass": "^9.0.0",
+    "sass": "^1.67.0"
   }
 }
