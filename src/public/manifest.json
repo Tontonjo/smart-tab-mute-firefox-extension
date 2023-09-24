@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "Smart Tab Mute - Tonton Jo Edition",
+  "name": "Smart Tab Mute 2023",
   "description": "Ensures that only one tab plays audio at the same time and unmute the previously audio playing tab when one stops",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "icons": {
     "16": "images/icon128.png",
     "48": "images/icon128.png",
@@ -14,8 +14,8 @@
   },
   "applications": {
     "gecko": {
-      "id": "smart-tab-mute@tonton-jo.ch",
-      "strict_min_version": "47.0a1"
+      "id": "smart-tab-mute@tontonjo.ch",
+      "strict_min_version": "48.0"
     }
   },
   "background": {
