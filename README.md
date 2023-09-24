@@ -9,9 +9,16 @@ Special thanks to @Gregoux06 who helped me a lot in fixing this plugin.
 This is a Firefox port of https://github.com/neuling/smart-tab-mute-chrome-extension  
 Forked from https://github.com/noniq/smart-tab-mute-chrome-extension  
 
+## Download from Firefox!  
+[Click Here!](https://addons.mozilla.org/en-US/firefox/addon/smart-tab-mute-2023)  
+
 ## Known issues  
-When 3 tabs are playing sound, the script loops between all of them  
- * In **Firefox 47** the options page is not available (needs Firefox 48 or newer), so it’s not possible to edit the whitelist or change the “Unmute last tab” setting.
+Not much an issue, but script can only remember 1 latest playing tab, it's not "recursive"
+
+Changelog:: 
+- V 1.1.0
+- - When 3 tabs are playing sound, the script loops between all of them
+- - Closing a tab correctly triggers the unmute
 
 ## Testing the extension
 
