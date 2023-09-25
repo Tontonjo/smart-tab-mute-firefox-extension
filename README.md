@@ -13,6 +13,7 @@ Forked from https://github.com/noniq/smart-tab-mute-chrome-extension
 [Click Here!](https://addons.mozilla.org/en-US/firefox/addon/smart-tab-mute-2023)  
 
 ## Known issues  
+Ignore list seems broken atm
 Not much an issue, but script can only remember 1 latest playing tab, it's not "recursive"
 
 Changelog:: 
