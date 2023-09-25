@@ -92,9 +92,6 @@ chrome.storage.local.get((storage) => {
     if (!storage.whitelist) {
     chrome.storage.local.set(DEFAULT_STORAGE_DATA);
   }
-    if (!storage.whitelist) {
-    chrome.storage.local.set(DEFAULT_STORAGE_DATA);
-  }
 });
 
 chrome.tabs.onUpdated.addListener(tabUpdated);
