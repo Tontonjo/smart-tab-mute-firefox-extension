@@ -1,4 +1,4 @@
-# Smart Tab Mute Chrome Extension – ported to Firefox
+# Smart Tab Mute 2023
 
 ## Tonton Jo  
 ### Join the community & Support my work   
@@ -16,6 +16,9 @@ Forked from https://github.com/noniq/smart-tab-mute-chrome-extension
 Not much an issue, but script can only remember 1 latest playing tab, it's not "recursive"
 
 Changelog:  
+### V 2.0.1  
+- set the latest audible tab at the right moment
+
 ### V 2.0.0  
 - Added support for a whitelist: thoses tabs will never get muted
 - ignore list now working as expected
