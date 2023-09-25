@@ -11,7 +11,6 @@ const muteOtherTabs = (changedTab, whitelist) => {
   chrome.tabs.query({ audible: true }, (tabs) => {
     tabs.forEach((tab) => {
       if (tab.id !== changedTab.id) {
-        latestAudibleTabId = tab.id;
         const currentUrl = new URL(tab.url);
         const fqdn = currentUrl.hostname;
         console.log("- new tab domain: ", fqdn);
@@ -21,6 +20,7 @@ const muteOtherTabs = (changedTab, whitelist) => {
         } else {
           console.log(whitelist);
           console.log('- Not on ignore list - muting other tabs');
+	  latestAudibleTabId = tab.id;
           chrome.tabs.update(tab.id, { muted: true });
         }
       }
