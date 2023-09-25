@@ -1,20 +1,30 @@
 const DEFAULT_STORAGE_DATA = {
   ignoreList: 'messenger.com\nslack.com\noutlook.com',
+  whitelist: 'voipsystem.com',
   unmuteLastTab: true,
 }
 let latestAudibleTabId = null;
 let actualAudibleTabId = null;
 
-const muteOtherTabs = (changedTab, ignoreList) => {
-console.log('- Start muteOtherTabs');
+const muteOtherTabs = (changedTab, whitelist) => {
+  console.log('- Start muteOtherTabs');
   chrome.tabs.query({ audible: true }, (tabs) => {
     tabs.forEach((tab) => {
-      const onIgnoreList = ignoreList && Math.max(ignoreList.split(/\n/).map(i => tab.url.indexOf(i.trim()))) > -1;
-      if (tab.id !== changedTab.id && !onIgnoreList) {
-		latestAudibleTabId = tab.id;
-        chrome.tabs.update(tab.id, { muted: true });
+      if (tab.id !== changedTab.id) {
+        latestAudibleTabId = tab.id;
+        const currentUrl = new URL(tab.url);
+        const fqdn = currentUrl.hostname;
+        console.log("- new tab domain: ", fqdn);
+        // Comparaison avec la liste ignoreList
+        if (whitelist.includes(fqdn)) {
+          console.log('- On ignore list - dont mute');
+        } else {
+          console.log(whitelist);
+          console.log('- Not on ignore list - muting other tabs');
+          chrome.tabs.update(tab.id, { muted: true });
+        }
       }
-    })
+    });
   });
 };
 
@@ -33,35 +43,56 @@ const unmuteRecentTabremoved = () => {
 };
 
 const tabUpdated = (tabId, changeInfo, tab) => {
-if (changeInfo && changeInfo.audible === true || changeInfo && changeInfo.audible === false) {
-  chrome.storage.local.get((storage) => {
-    const { ignoreList } = storage;	
-	actualAudibleTabId = tabId;
-	console.log('- Start tabUpdated');
-	console.log('- latestAudibleTabId : '+ latestAudibleTabId +' - ActualAudibleTabId : '+ actualAudibleTabId);
-    if (changeInfo && changeInfo.audible === true) {
-      const onIgnoreList = ignoreList && Math.max(ignoreList.split(/\n/).map(i => tab.url.indexOf(i.trim()))) > -1;
-      if (!onIgnoreList) {
-		console.log('- Not on ignor list - muting other tabs');
-        muteOtherTabs(tab, ignoreList);
+  if (changeInfo && (changeInfo.audible === true || changeInfo.audible === false)) {
+    chrome.storage.local.get((storage) => {
+      let actualAudibleTabId = tabId; // Déclarez actualAudibleTabId avec "let" pour éviter une erreur
+      console.log('- Start tabUpdated');
+      console.log('- latestAudibleTabId : ' + latestAudibleTabId + ' - ActualAudibleTabId : ' + actualAudibleTabId);
+
+      if (changeInfo && changeInfo.audible === true) {
+        browser.tabs.query({ active: true, currentWindow: true })
+          .then((tabs) => {
+            if (tabs.length > 0) {
+              const ignoreList = storage.ignoreList;
+              const whitelist = storage.whitelist;
+              const currentTab = tabs[0];
+              const currentUrl = new URL(currentTab.url);
+              const fqdn = currentUrl.hostname;
+              console.log("- new tab domain: ", fqdn);
+              // Comparaison avec la liste ignoreList
+              if (ignoreList.includes(fqdn)) {
+                console.log('- On ignore list - tab wont get muted');
+              } else {
+                console.log(whitelist);
+                console.log('- Not on ignore list - muting other tabs');
+                muteOtherTabs(tab, whitelist);
+              }
+            }
+          });
       }
-	  
-    }
-    if (changeInfo && changeInfo.audible === false) {
-      if (storage && storage.unmuteLastTab) {
-		if (latestAudibleTabId !== actualAudibleTabId) {
-		unmuteRecentTab();
-		}
+
+      if (changeInfo && changeInfo.audible === false) {
+        if (storage && storage.unmuteLastTab) {
+          if (latestAudibleTabId !== actualAudibleTabId) {
+            unmuteRecentTab();
+          }
+        }
       }
-    }
-  });
-  console.log('-End tabUpdated');
- 
+
+      console.log('- End tabUpdated');
+    });
+  }
 };
-}
+
 
 chrome.storage.local.get((storage) => {
   if (!storage.ignoreList) {
+    chrome.storage.local.set(DEFAULT_STORAGE_DATA);
+  }
+    if (!storage.whitelist) {
+    chrome.storage.local.set(DEFAULT_STORAGE_DATA);
+  }
+    if (!storage.whitelist) {
     chrome.storage.local.set(DEFAULT_STORAGE_DATA);
   }
 });
