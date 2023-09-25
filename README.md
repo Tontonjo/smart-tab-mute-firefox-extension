@@ -13,11 +13,18 @@ Forked from https://github.com/noniq/smart-tab-mute-chrome-extension
 [Click Here!](https://addons.mozilla.org/en-US/firefox/addon/smart-tab-mute-2023)  
 
 ## Known issues  
-Ignore list seems broken atm
 Not much an issue, but script can only remember 1 latest playing tab, it's not "recursive"
 
-Changelog:: 
-- V 1.1.0
+Changelog:  
+### V 2.0.0  
+- Added support for a whitelist: thoses tabs will never get muted
+- ignore list now working as expected
+
+### V 1.2.0  
+- Tidy the code a bit from non-necessary parts
+- Plugin now only triggered when the tab has sound (playing or not)
+- Small enhancements to prevente non-necessary processings
+### V 1.1.0  
 - - When 3 tabs are playing sound, the script loops between all of them
 - - Closing a tab correctly triggers the unmute
 
