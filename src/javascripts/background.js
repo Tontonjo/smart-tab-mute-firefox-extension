@@ -21,32 +21,19 @@ console.log('- Start muteOtherTabs');
 const unmuteRecentTab = () => {
 	console.log('- Start unmuteRecentTab');
 	console.log('- latestAudibleTabId : '+ latestAudibleTabId +' - ActualAudibleTabId : '+ actualAudibleTabId);
-	chrome.tabs.query({ muted: true }, (tabs) => {
-		tabs.forEach((tab) => {
-		if (latestAudibleTabId !== actualAudibleTabId) {
-		chrome.tabs.update(latestAudibleTabId, { muted: false });
-		}
-		console.log('- End unmuteRecentTab');  
-	});
-
-	})
-  
+	chrome.tabs.update(latestAudibleTabId, { muted: false });
+	console.log('- End unmuteRecentTab');  
 };
 
 const unmuteRecentTabremoved = () => {
 	console.log('- Start unmuteRecentTabremoved');
 	console.log('- latestAudibleTabId : '+ latestAudibleTabId +' - ActualAudibleTabId : '+ actualAudibleTabId);
-	chrome.tabs.query({ muted: true }, (tabs) => {
-		tabs.forEach((tab) => {
-		chrome.tabs.update(latestAudibleTabId, { muted: false });
-		console.log('- End unmuteRecentTab');  
-	});
-
-	})
-  
+	chrome.tabs.update(latestAudibleTabId, { muted: false });
+	console.log('- End unmuteRecentTab');  
 };
 
 const tabUpdated = (tabId, changeInfo, tab) => {
+if (changeInfo && changeInfo.audible === true || changeInfo && changeInfo.audible === false) {
   chrome.storage.local.get((storage) => {
     const { ignoreList } = storage;	
 	actualAudibleTabId = tabId;
@@ -62,14 +49,16 @@ const tabUpdated = (tabId, changeInfo, tab) => {
     }
     if (changeInfo && changeInfo.audible === false) {
       if (storage && storage.unmuteLastTab) {
-		console.log(' - latestAudibleTabId : '+ latestAudibleTabId +' - ActualAudibleTabId : '+ actualAudibleTabId);
+		if (latestAudibleTabId !== actualAudibleTabId) {
 		unmuteRecentTab();
+		}
       }
     }
   });
   console.log('-End tabUpdated');
  
 };
+}
 
 chrome.storage.local.get((storage) => {
   if (!storage.ignoreList) {
