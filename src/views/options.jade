@@ -6,7 +6,13 @@ html
     form.options
       .option
         label
-          | Tabs including the following URLs will be ignored by Smart Tab Mute
+          | Whitelisted domains (these tabs will never be muted)
+          textarea(name="whitelist" rows="5")
+          .hint Use this for websites you never want to see getting muted
+
+      .option
+        label
+          | Tabs including the following domains will be ignored by Smart Tab Mute
           textarea(name="ignoreList" rows="5")
           .hint Use this for sites playing short sounds for notifications or games
         
