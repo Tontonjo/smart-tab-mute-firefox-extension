@@ -13,9 +13,10 @@ Forked from https://github.com/noniq/smart-tab-mute-chrome-extension
 [Click Here!](https://addons.mozilla.org/en-US/firefox/addon/smart-tab-mute-2023)  
 
 ## Known issues  
+Version 2 introduced a bug when closing a tab, a wrong tab may get unmuted
 Not much an issue, but script can only remember 1 latest playing tab, it's not "recursive"
 
-Changelog:  
+## Changelog:  
 ### V 2.0.1  
 - set the latest audible tab at the right moment
 
