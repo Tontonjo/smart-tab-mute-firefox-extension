@@ -15,6 +15,10 @@ Forked from https://github.com/noniq/smart-tab-mute-chrome-extension
 ## Known issues  
 Version 2 introduced a bug when closing a tab, a wrong tab may get unmuted
 Not much an issue, but script can only remember 1 latest playing tab, it's not "recursive"
+Script is not "fast" due to the delay implied by a tab when it stops making noise and background triggers.
+
+## Possible feature suggestions and future improvements:
+- Unmute a tab when selected  
 
 ## Changelog:  
 ### V 2.0.1  
