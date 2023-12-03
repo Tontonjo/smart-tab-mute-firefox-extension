@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Smart Tab Mute 2023",
   "description": "Ensures that only one tab plays audio at the same time and unmute the previously audio playing tab when one stops",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "icons": {
     "16": "images/icon128.png",
     "48": "images/icon128.png",
