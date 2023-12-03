@@ -35,11 +35,27 @@ const unmuteRecentTab = () => {
 	console.log('- End unmuteRecentTab');  
 };
 
-const unmuteRecentTabremoved = () => {
+const unmuteRecentTabremoved = (changeInfo) => {
 	console.log('- Start unmuteRecentTabremoved');
+	if (changeInfo.audible === true) {
 	console.log('- latestAudibleTabId : '+ latestAudibleTabId +' - ActualAudibleTabId : '+ actualAudibleTabId);
 	chrome.tabs.update(latestAudibleTabId, { muted: false });
+	actualAudibleTabId = latestAudibleTabId
+	}
 	console.log('- End unmuteRecentTab');  
+};
+
+const unmuteselectedtab = () => {
+console.log('- Start unmuteselectedtab');
+chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+    var activeTab = tabs[0];
+    chrome.tabs.get(activeTab.id, function(tab) {
+      if (tab.mutedInfo && tab.mutedInfo.muted) {
+        chrome.tabs.update(activeTab.id, { muted: false });
+      }
+	  });
+  });
+console.log('- End unmuteselectedtab');
 };
 
 const tabUpdated = (tabId, changeInfo, tab) => {
@@ -96,3 +112,4 @@ chrome.storage.local.get((storage) => {
 
 chrome.tabs.onUpdated.addListener(tabUpdated);
 chrome.tabs.onRemoved.addListener(unmuteRecentTabremoved);
+chrome.tabs.onActivated.addListener(unmuteselectedtab)
