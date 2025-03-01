@@ -84,29 +84,43 @@ const unmuteselectedtab = () => {
 };
 
 const tabUpdated = (tabId, changeInfo, tab) => {
-  if (latestAudibleTabId !== tabId) {
-    if (changeInfo && (changeInfo.audible === true || changeInfo.audible === false)) {
-      chrome.storage.local.get((storage) => {
-        console.log('- Start tabUpdated');
-        console.log('- latestAudibleTabId:', latestAudibleTabId, '- actualAudibleTabId:', actualAudibleTabId);
-        
-        if (changeInfo.audible === true) {
-          console.log('- Tab is audible');
-          chrome.tabs.query({ audible: true }, (tabs) => {
-              console.log('- Muting other tabs');
-              muteOtherTabs(tab, storage.whitelist);
+  let actualAudibleTabId = tabId;
+  if (latestAudibleTabId !== actualAudibleTabId) {
+  if (changeInfo && (changeInfo.audible === true || changeInfo.audible === false)) {
+    chrome.storage.local.get((storage) => {
+      let actualAudibleTabId = tabId;
+      console.log('- Start tabUpdated');
+      console.log('- latestAudibleTabId : ' + latestAudibleTabId + ' - ActualAudibleTabId : ' + actualAudibleTabId);
+      if (changeInfo && changeInfo.audible === true) {
+		console.log('- Tab is audible');  
+        browser.tabs.query({ active: true, currentWindow: true })
+          .then((tabs) => {
+            if (tabs.length > 0) {
+              const ignoreList = storage.ignoreList;
+              const whitelist = storage.whitelist;
+              const currentTab = tabs[0];
+              const currentUrl = new URL(currentTab.url);
+              const fqdn = currentUrl.hostname;
+              console.log("- New tab domain: ", fqdn);
+              if (ignoreList.includes(fqdn)) {
+                console.log('- On ignorelist - tab wont get muted');
+              } else {
+                console.log('- Not on ignoreList - muting other tabs');
+                muteOtherTabs(tab, whitelist);
+              }
+            }
           });
-        } else {
-          console.log('- Tab is not audible');
-          if (storage.unmuteLastTab) {
-            unmuteRecentTab();
-          }
+      } else {
+		console.log('- Tab is not audible');
+        if (storage && storage.unmuteLastTab) {
+		unmuteRecentTab();
         }
-        console.log('- End tabUpdated');
-      });
-    }
+	  }
+      console.log('- End tabUpdated');
+    });
   }
 };
+}
 
 chrome.storage.local.get((storage) => {
   if (!storage.ignoreList || !storage.whitelist) {
