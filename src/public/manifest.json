@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Smart Tab Mute +",
   "description": "Ensures that only one tab plays audio at the same time and unmute the previously audio playing tab when one stops",
-  "version": "3.0.1",
+  "version": "3.1.0",
   "icons": {
     "16": "images/icon16.png",
     "128": "images/icon128.png"
@@ -14,7 +14,7 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "smart-tab-mute@tontonjo.ch",
-      "strict_min_version": "48.0"
+      "strict_min_version": "58.0"
     }
   },
   "background": {
